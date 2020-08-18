@@ -1,6 +1,5 @@
 package cromwell.services.metadata.hybridcarbonite
 
-import akka.stream.ActorMaterializer
 import akka.testkit.{TestActorRef, TestProbe}
 import cats.data.NonEmptyList
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
@@ -42,8 +41,6 @@ class CarbonitedMetadataThawingActorSpec extends TestKitSuite("CarbonitedMetadat
 
   val serviceRegistryActor = TestProbe()
   val ioActor = TestProbe()
-
-  implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   it should "receive a message from GCS" in {
 

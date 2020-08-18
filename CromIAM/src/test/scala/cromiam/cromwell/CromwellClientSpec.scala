@@ -6,7 +6,6 @@ import akka.actor.{ActorRef, ActorSystem}
 import akka.event.NoLogging
 import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
 import akka.http.scaladsl.model.{HttpHeader, HttpRequest, HttpResponse}
-import akka.stream.ActorMaterializer
 import cats.data.NonEmptyList
 import cats.effect.IO
 import cromiam.auth.User
@@ -25,7 +24,6 @@ class CromwellClientSpec extends AsyncFlatSpec with Matchers with BeforeAndAfter
 
   implicit val actorSystem: ActorSystem = ActorSystem("CromwellClientSpec")
   implicit val ece: ExecutionContextExecutor = actorSystem.dispatcher
-  implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   val cromwellClient = new MockCromwellClient()
 
@@ -64,8 +62,7 @@ class CromwellClientSpec extends AsyncFlatSpec with Matchers with BeforeAndAfter
 
 object CromwellClientSpec {
   final class MockCromwellClient()(implicit system: ActorSystem,
-                                   ece: ExecutionContextExecutor,
-                                   materializer: ActorMaterializer)
+                                   ece: ExecutionContextExecutor)
   extends CromwellClient("http", "bar", 1, NoLogging, ActorRef.noSender) {
     override val cromwellApiClient: CromwellApiClient = new MockCromwellApiClient()
 
@@ -75,7 +72,7 @@ object CromwellClientSpec {
                               ): Unit = ()
   }
 
-  final class MockCromwellApiClient()(implicit actorSystem: ActorSystem, materializer: ActorMaterializer)
+  final class MockCromwellApiClient()(implicit actorSystem: ActorSystem)
     extends CromwellApiClient(new URL("http://foo.com"), "bar") {
 
 

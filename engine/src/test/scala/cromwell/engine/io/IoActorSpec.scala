@@ -3,7 +3,6 @@ package cromwell.engine.io
 import java.io.IOException
 import java.net.{SocketException, SocketTimeoutException}
 
-import akka.stream.ActorMaterializer
 import akka.testkit.{ImplicitSender, TestActorRef, TestProbe}
 import better.files.File.OpenOptions
 import com.google.cloud.storage.StorageException
@@ -24,10 +23,8 @@ class IoActorSpec extends TestKitSuite with FlatSpecLike with Matchers with Impl
   
   implicit val actorSystem = system
   implicit val ec: ExecutionContext = system.dispatcher
-  implicit val materializer = ActorMaterializer()
   
   override def afterAll() = {
-    materializer.shutdown()
     super.afterAll()
   }
   
